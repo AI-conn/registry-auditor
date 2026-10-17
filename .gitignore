@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Deliberately NOT ignored:
+# - dashboard.html — the shipped, judge-openable verification view.
+# - scripts/deployment.json — public testnet evidence (contract address +
+#   tx hashes), committed after the deploy step runs.
+# - scripts/deploy_config.json — holds only a PUBLIC wallet address; it is
+#   local deploy state. Never put a private key in it (or anywhere).
+scripts/deploy_config.json

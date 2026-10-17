@@ -1,0 +1,212 @@
+{
+  "_fixture": "SYNTHETIC fixture data for development and testing. Not a real registry export.",
+  "credits": [
+    {
+      "_note": "Duplicate serial case: serial DUP-001 appears on two records",
+      "serial": "DUP-001",
+      "project": "Synthetic Mangrove Project A — FIXTURE",
+      "vintage": 2020,
+      "quantity": 100,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 100,
+          "actor": "issuer_a",
+          "date": "2020-01-15"
+        }
+      ]
+    },
+    {
+      "_note": "Duplicate serial case: same serial DUP-001 on different record",
+      "serial": "DUP-001",
+      "project": "Synthetic Wetland Project B — FIXTURE",
+      "vintage": 2021,
+      "quantity": 50,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 50,
+          "actor": "issuer_b",
+          "date": "2021-02-20"
+        }
+      ]
+    },
+    {
+      "_note": "Double retirement case: two retired events",
+      "serial": "DBL-RET-001",
+      "project": "Synthetic Reforestation Project C — FIXTURE",
+      "vintage": 2019,
+      "quantity": 200,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 200,
+          "actor": "issuer_c",
+          "date": "2019-03-10"
+        },
+        {
+          "type": "retired",
+          "qty": 100,
+          "actor": "retirer_1",
+          "date": "2022-06-15"
+        },
+        {
+          "type": "retired",
+          "qty": 100,
+          "actor": "retirer_2",
+          "date": "2023-07-20"
+        }
+      ]
+    },
+    {
+      "_note": "Retired-then-traded case: transferred after retirement",
+      "serial": "RET-TRADE-001",
+      "project": "Synthetic Solar Project D — FIXTURE",
+      "vintage": 2021,
+      "quantity": 150,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 150,
+          "actor": "issuer_d",
+          "date": "2021-04-05"
+        },
+        {
+          "type": "retired",
+          "qty": 100,
+          "actor": "retirer_3",
+          "date": "2023-05-10"
+        },
+        {
+          "type": "transferred",
+          "qty": 50,
+          "actor": "trader_1",
+          "date": "2023-08-25"
+        }
+      ]
+    },
+    {
+      "_note": "Quantity mismatch case: retired + transferred exceeds issued",
+      "serial": "QTY-MISMATCH-001",
+      "project": "Synthetic Wind Project E — FIXTURE",
+      "vintage": 2020,
+      "quantity": 300,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 300,
+          "actor": "issuer_e",
+          "date": "2020-05-12"
+        },
+        {
+          "type": "transferred",
+          "qty": 150,
+          "actor": "trader_2",
+          "date": "2021-01-22"
+        },
+        {
+          "type": "retired",
+          "qty": 200,
+          "actor": "retirer_4",
+          "date": "2022-09-18"
+        }
+      ]
+    },
+    {
+      "_note": "Clean near-miss A: two credits sharing project+vintage, distinct serials",
+      "serial": "CLEAN-A1",
+      "project": "Synthetic Biochar Project F — FIXTURE",
+      "vintage": 2022,
+      "quantity": 80,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 80,
+          "actor": "issuer_f",
+          "date": "2022-06-01"
+        },
+        {
+          "type": "retired",
+          "qty": 80,
+          "actor": "retirer_5",
+          "date": "2023-11-30"
+        }
+      ]
+    },
+    {
+      "_note": "Clean near-miss A: second credit, same project+vintage as CLEAN-A1",
+      "serial": "CLEAN-A2",
+      "project": "Synthetic Biochar Project F — FIXTURE",
+      "vintage": 2022,
+      "quantity": 120,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 120,
+          "actor": "issuer_f",
+          "date": "2022-06-15"
+        },
+        {
+          "type": "retired",
+          "qty": 120,
+          "actor": "retirer_6",
+          "date": "2023-12-15"
+        }
+      ]
+    },
+    {
+      "_note": "Clean near-miss B: credit cleanly fully retired",
+      "serial": "CLEAN-B",
+      "project": "Synthetic Methane Avoidance Project G — FIXTURE",
+      "vintage": 2021,
+      "quantity": 250,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 250,
+          "actor": "issuer_g",
+          "date": "2021-07-20"
+        },
+        {
+          "type": "retired",
+          "qty": 250,
+          "actor": "retirer_7",
+          "date": "2024-03-10"
+        }
+      ]
+    },
+    {
+      "_note": "Clean near-miss C: all transfers before retirement (correct order)",
+      "serial": "CLEAN-C",
+      "project": "Synthetic Hydro Project H — FIXTURE",
+      "vintage": 2020,
+      "quantity": 175,
+      "events": [
+        {
+          "type": "issued",
+          "qty": 175,
+          "actor": "issuer_h",
+          "date": "2020-08-05"
+        },
+        {
+          "type": "transferred",
+          "qty": 50,
+          "actor": "trader_3",
+          "date": "2021-09-10"
+        },
+        {
+          "type": "transferred",
+          "qty": 30,
+          "actor": "trader_4",
+          "date": "2022-01-15"
+        },
+        {
+          "type": "retired",
+          "qty": 95,
+          "actor": "retirer_8",
+          "date": "2024-04-01"
+        }
+      ]
+    }
+  ]
+}

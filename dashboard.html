@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Registry Auditor — Audit Dashboard</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:2rem auto;max-width:960px;padding:0 1rem;color:#1b1f23;line-height:1.5}h1{margin-bottom:.2rem}.sub{color:#57606a;margin-top:0}table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #d0d7de;padding:.4rem .6rem;text-align:left}th{background:#f6f8fa}section.batch{border:1px solid #d0d7de;border-radius:8px;padding:1rem 1.25rem;margin:1.5rem 0}.finding,.near-miss{border-left:4px solid #cf222e;background:#fff8f8;padding:.5rem .9rem;margin:.7rem 0}.near-miss{border-left-color:#bf8700;background:#fffdf5}.badge{background:#cf222e;color:#fff;border-radius:4px;padding:.05rem .45rem;font-size:.85em}pre{background:#f6f8fa;padding:.7rem;overflow-x:auto;border-radius:6px}code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;word-break:break-all}.tamper{border:1px dashed #bf8700;border-radius:6px;padding:.6rem .9rem;margin:1rem 0}.verify{border-top:1px solid #d0d7de;margin-top:1rem;padding-top:.5rem}button{background:#0969da;color:#fff;border:0;border-radius:6px;padding:.5rem 1rem;cursor:pointer}.verify-ok{color:#1a7f37;font-weight:600}.verify-bad{color:#cf222e;font-weight:600}.clean{color:#1a7f37;font-weight:600}</style>
+</head>
+<body>
+<h1>Registry Auditor — Audit Dashboard</h1>
+<p class="sub">Carbon-credit registry double-counting audit · IEEE ClimateChain — Carbon Markets &amp; Emissions Transparency track. Every finding quotes its evidence records; every report is canonically hashed (SHA-256) and anchored. The shipped dataset is SYNTHETIC and labeled as such in its file.</p>
+<h2>Batch history</h2>
+<table><tr><th>#</th><th>Dataset</th><th>Records</th><th>Findings</th><th>Report hash</th><th>Anchored</th></tr>
+<tr><td>1</td><td>fixtures/registry_fixture.json</td><td>9</td><td>4</td><td><code>e0c3bd15343afa8a…</code></td><td>yes</td></tr>
+</table>
+<section class="batch" id="batch-0"><h2>Batch 1 — fixtures/registry_fixture.json</h2><p>Records checked: <strong>9</strong> · Clean: <strong>False</strong> · Findings by kind: double_retirement: 1, duplicate_serial: 1, quantity_mismatch: 1, retired_then_traded: 1</p><p>Report hash (SHA-256 of canonical report): <code>e0c3bd15343afa8a7b6fc4fde628576f62ef9820ba22c71c2fbf502b77f4ca17</code></p><p><strong>Anchor:</strong> LOCAL FIXTURE (in-memory simulation of the AuditAnchor contract — not a blockchain). Receipt: tx <code>local-fixture-tx-1000001</code>, block 1000001, timestamp 1761000001. The same report hash is what the testnet deployment commits on-chain (see scripts/TESTNET-DEPLOY.md).</p><h3>Findings — every finding quotes its evidence</h3><article class="finding"><h4><span class="badge">duplicate_serial</span> Finding 1</h4><p><strong>Serials:</strong> DUP-001</p><p>Serial &#x27;DUP-001&#x27; appears on 2 distinct credit records.</p><details><summary>Evidence records (2)</summary><pre>[
+  {
+    &quot;serial&quot;: &quot;DUP-001&quot;,
+    &quot;project&quot;: &quot;Synthetic Mangrove Project A — FIXTURE&quot;,
+    &quot;vintage&quot;: 2020,
+    &quot;quantity&quot;: 100,
+    &quot;record_count&quot;: 2
+  },
+  {
+    &quot;serial&quot;: &quot;DUP-001&quot;,
+    &quot;project&quot;: &quot;Synthetic Wetland Project B — FIXTURE&quot;,
+    &quot;vintage&quot;: 2021,
+    &quot;quantity&quot;: 50,
+    &quot;record_count&quot;: 2
+  }
+]</pre></details></article>
+<article class="finding"><h4><span class="badge">double_retirement</span> Finding 2</h4><p><strong>Serials:</strong> DBL-RET-001</p><p>Credit DBL-RET-001 has 2 retirement events.</p><details><summary>Evidence records (2)</summary><pre>[
+  {
+    &quot;serial&quot;: &quot;DBL-RET-001&quot;,
+    &quot;event_type&quot;: &quot;retired&quot;,
+    &quot;event_qty&quot;: 100,
+    &quot;event_actor&quot;: &quot;retirer_1&quot;,
+    &quot;event_date&quot;: &quot;2022-06-15&quot;
+  },
+  {
+    &quot;serial&quot;: &quot;DBL-RET-001&quot;,
+    &quot;event_type&quot;: &quot;retired&quot;,
+    &quot;event_qty&quot;: 100,
+    &quot;event_actor&quot;: &quot;retirer_2&quot;,
+    &quot;event_date&quot;: &quot;2023-07-20&quot;
+  }
+]</pre></details></article>
+<article class="finding"><h4><span class="badge">retired_then_traded</span> Finding 3</h4><p><strong>Serials:</strong> RET-TRADE-001</p><p>Credit RET-TRADE-001 transferred after retirement.</p><details><summary>Evidence records (2)</summary><pre>[
+  {
+    &quot;serial&quot;: &quot;RET-TRADE-001&quot;,
+    &quot;retired_event&quot;: {
+      &quot;type&quot;: &quot;retired&quot;,
+      &quot;date&quot;: &quot;2023-05-10&quot;,
+      &quot;qty&quot;: 100
+    }
+  },
+  {
+    &quot;serial&quot;: &quot;RET-TRADE-001&quot;,
+    &quot;transferred_event&quot;: {
+      &quot;type&quot;: &quot;transferred&quot;,
+      &quot;date&quot;: &quot;2023-08-25&quot;,
+      &quot;qty&quot;: 50
+    }
+  }
+]</pre></details></article>
+<article class="finding"><h4><span class="badge">quantity_mismatch</span> Finding 4</h4><p><strong>Serials:</strong> QTY-MISMATCH-001</p><p>Credit QTY-MISMATCH-001: issued 300, but retired 200 + transferred 150 = 350.</p><details><summary>Evidence records (1)</summary><pre>[
+  {
+    &quot;serial&quot;: &quot;QTY-MISMATCH-001&quot;,
+    &quot;issued_qty&quot;: 300,
+    &quot;retired_qty&quot;: 200,
+    &quot;transferred_out_qty&quot;: 150,
+    &quot;total_out&quot;: 350,
+    &quot;events&quot;: [
+      {
+        &quot;type&quot;: &quot;issued&quot;,
+        &quot;qty&quot;: 300,
+        &quot;actor&quot;: &quot;issuer_e&quot;,
+        &quot;date&quot;: &quot;2020-05-12&quot;
+      },
+      {
+        &quot;type&quot;: &quot;transferred&quot;,
+        &quot;qty&quot;: 150,
+        &quot;actor&quot;: &quot;trader_2&quot;,
+        &quot;date&quot;: &quot;2021-01-22&quot;
+      },
+      {
+        &quot;type&quot;: &quot;retired&quot;,
+        &quot;qty&quot;: 200,
+        &quot;actor&quot;: &quot;retirer_4&quot;,
+        &quot;date&quot;: &quot;2022-09-18&quot;
+      }
+    ]
+  }
+]</pre></details></article><h3>Near-misses — suspicious, and explained as legitimate</h3><article class="near-miss"><h4>multiple_credits_same_project_vintage</h4><p><strong>Serials:</strong> CLEAN-A1, CLEAN-A2</p><p>Multiple credits from the same project and vintage year is legitimate; each maintains its own serial and lifecycle.</p></article>
+<article class="near-miss"><h4>clean_full_retirement</h4><p><strong>Serials:</strong> CLEAN-A1</p><p>Credit retired exactly once for its full quantity; this is the normal end-of-life for a consumed credit.</p></article>
+<article class="near-miss"><h4>clean_full_retirement</h4><p><strong>Serials:</strong> CLEAN-A2</p><p>Credit retired exactly once for its full quantity; this is the normal end-of-life for a consumed credit.</p></article>
+<article class="near-miss"><h4>clean_full_retirement</h4><p><strong>Serials:</strong> CLEAN-B</p><p>Credit retired exactly once for its full quantity; this is the normal end-of-life for a consumed credit.</p></article>
+<article class="near-miss"><h4>transfers_before_retirement</h4><p><strong>Serials:</strong> QTY-MISMATCH-001</p><p>All transfers occur before retirement; the credit changed hands and was then retired by the final owner.</p></article>
+<article class="near-miss"><h4>transfers_before_retirement</h4><p><strong>Serials:</strong> CLEAN-C</p><p>All transfers occur before retirement; the credit changed hands and was then retired by the final owner.</p></article><div class="tamper"><h4>Tamper demonstration (computed at build time)</h4><p>One field of a copy of this report was edited after anchoring — <code>findings[0].explanation</code>: “Serial &#x27;DUP-001&#x27; appears on 2 distinct credit records. (edited after anchoring)”</p><p>Recomputed hash: <code>b77f2b2693eb290a092f52b795d19ea5d74e0a6202e6ac1c2b1968fccde18827</code><br>Verification of the edited copy: <strong>match = False</strong> (must be False — the edited report is not the anchored report).</p></div><div class="verify"><h3>Verify this report yourself</h3><p>Recompute the canonical SHA-256 of the report shown on this page, in your browser, and compare it with the anchored hash above.</p><button onclick="verifyBatch(0, 'e0c3bd15343afa8a7b6fc4fde628576f62ef9820ba22c71c2fbf502b77f4ca17', 'verify-result-0')">Recompute &amp; verify</button><p id="verify-result-0" class="verify-pending">Not run yet.</p></div><script type="application/json" id="report-0">{"batch_id": "581f3df9b9fd42dd81c1b5055fb05dbe", "generated_from": 9, "findings": [{"kind": "duplicate_serial", "serials": ["DUP-001"], "evidence": [{"serial": "DUP-001", "project": "Synthetic Mangrove Project A — FIXTURE", "vintage": 2020, "quantity": 100, "record_count": 2}, {"serial": "DUP-001", "project": "Synthetic Wetland Project B — FIXTURE", "vintage": 2021, "quantity": 50, "record_count": 2}], "explanation": "Serial 'DUP-001' appears on 2 distinct credit records."}, {"kind": "double_retirement", "serials": ["DBL-RET-001"], "evidence": [{"serial": "DBL-RET-001", "event_type": "retired", "event_qty": 100, "event_actor": "retirer_1", "event_date": "2022-06-15"}, {"serial": "DBL-RET-001", "event_type": "retired", "event_qty": 100, "event_actor": "retirer_2", "event_date": "2023-07-20"}], "explanation": "Credit DBL-RET-001 has 2 retirement events."}, {"kind": "retired_then_traded", "serials": ["RET-TRADE-001"], "evidence": [{"serial": "RET-TRADE-001", "retired_event": {"type": "retired", "date": "2023-05-10", "qty": 100}}, {"serial": "RET-TRADE-001", "transferred_event": {"type": "transferred", "date": "2023-08-25", "qty": 50}}], "explanation": "Credit RET-TRADE-001 transferred after retirement."}, {"kind": "quantity_mismatch", "serials": ["QTY-MISMATCH-001"], "evidence": [{"serial": "QTY-MISMATCH-001", "issued_qty": 300, "retired_qty": 200, "transferred_out_qty": 150, "total_out": 350, "events": [{"type": "issued", "qty": 300, "actor": "issuer_e", "date": "2020-05-12"}, {"type": "transferred", "qty": 150, "actor": "trader_2", "date": "2021-01-22"}, {"type": "retired", "qty": 200, "actor": "retirer_4", "date": "2022-09-18"}]}], "explanation": "Credit QTY-MISMATCH-001: issued 300, but retired 200 + transferred 150 = 350."}], "finding_counts": {"duplicate_serial": 1, "double_retirement": 1, "retired_then_traded": 1, "quantity_mismatch": 1}, "near_misses": [{"pattern": "multiple_credits_same_project_vintage", "serials": ["CLEAN-A1", "CLEAN-A2"], "why_not_a_finding": "Multiple credits from the same project and vintage year is legitimate; each maintains its own serial and lifecycle."}, {"pattern": "clean_full_retirement", "serials": ["CLEAN-A1"], "why_not_a_finding": "Credit retired exactly once for its full quantity; this is the normal end-of-life for a consumed credit."}, {"pattern": "clean_full_retirement", "serials": ["CLEAN-A2"], "why_not_a_finding": "Credit retired exactly once for its full quantity; this is the normal end-of-life for a consumed credit."}, {"pattern": "clean_full_retirement", "serials": ["CLEAN-B"], "why_not_a_finding": "Credit retired exactly once for its full quantity; this is the normal end-of-life for a consumed credit."}, {"pattern": "transfers_before_retirement", "serials": ["QTY-MISMATCH-001"], "why_not_a_finding": "All transfers occur before retirement; the credit changed hands and was then retired by the final owner."}, {"pattern": "transfers_before_retirement", "serials": ["CLEAN-C"], "why_not_a_finding": "All transfers occur before retirement; the credit changed hands and was then retired by the final owner."}], "records_checked": 9, "clean": false}</script></section>
+<script>
+function pyCanonical(value) {
+  if (value === null) return "null";
+  if (value === true) return "true";
+  if (value === false) return "false";
+  if (typeof value === "number") {
+    if (!isFinite(value)) throw new Error("non-finite number");
+    return String(value);
+  }
+  if (typeof value === "string") return pyString(value);
+  if (Array.isArray(value)) return "[" + value.map(pyCanonical).join(",") + "]";
+  var keys = Object.keys(value).sort();
+  return "{" + keys.map(function (k) { return pyString(k) + ":" + pyCanonical(value[k]); }).join(",") + "}";
+}
+function pyString(s) {
+  var out = '"';
+  for (var i = 0; i < s.length; i++) {
+    var c = s.charCodeAt(i);
+    if (c === 0x22) out += '\\"';
+    else if (c === 0x5c) out += "\\\\";
+    else if (c === 0x08) out += "\\b";
+    else if (c === 0x0c) out += "\\f";
+    else if (c === 0x0a) out += "\\n";
+    else if (c === 0x0d) out += "\\r";
+    else if (c === 0x09) out += "\\t";
+    else if (c < 0x20 || c > 0x7e) out += "\\u" + c.toString(16).padStart(4, "0");
+    else out += s[i];
+  }
+  return out + '"';
+}
+async function sha256Hex(text) {
+  var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+}
+async function verifyBatch(idx, anchoredHash, resultId) {
+  var el = document.getElementById(resultId);
+  try {
+    var report = JSON.parse(document.getElementById("report-" + idx).textContent);
+    delete report.batch_id;
+    var canonical = pyCanonical(report);
+    var digest = await sha256Hex(canonical);
+    var ok = digest === anchoredHash;
+    el.textContent = (ok ? "MATCH — recomputed hash equals the anchored hash: " : "MISMATCH — recomputed hash: ") + digest;
+    el.className = ok ? "verify-ok" : "verify-bad";
+  } catch (e) {
+    el.textContent = "Verification error: " + e.message;
+    el.className = "verify-bad";
+  }
+}
+</script>
+</body>
+</html>

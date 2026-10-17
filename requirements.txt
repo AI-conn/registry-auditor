@@ -1,0 +1,3 @@
+# Registry Auditor package uses only Python standard library.
+# Tests require pytest.
+pytest==9.1.1
